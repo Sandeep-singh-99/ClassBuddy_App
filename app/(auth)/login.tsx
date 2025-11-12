@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Login() {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function Login() {
       style={styles.container}
     >
       <View style={styles.headerContainer}>
+         <Ionicons name="school-outline" size={64} color="yellow" />
         <Text style={styles.headerText}>ClassBuddy</Text>
       </View>
 
