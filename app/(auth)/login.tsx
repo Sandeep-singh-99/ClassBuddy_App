@@ -1,17 +1,59 @@
+import { axiosClient } from "@/helper/axios";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
-  View,
   TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Toast } from "toastify-react-native";
+
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const router = useRouter();
+  const { login } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setLoading(true);
+    if (!email || !password) {
+      Toast.error("Please fill in all fields");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", email);
+      formData.append("password", password);
+
+      const res = await axiosClient.post("/mobile/auth/login", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      const userData = res.data.user;
+      const token = res.data.access_token;
+
+      await login(token, userData);
+
+      Toast.success("Login successful");
+    } catch (error: any) {
+      Toast.error(error.response?.data?.detail || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <LinearGradient
       colors={["#4c669f", "#3b5998", "#192f6a"]}
@@ -20,16 +62,18 @@ export default function Login() {
       style={styles.container}
     >
       <View style={styles.headerContainer}>
-         <Ionicons name="school-outline" size={64} color="yellow" />
+        <Ionicons name="school-outline" size={64} color="yellow" />
         <Text style={styles.headerText}>ClassBuddy</Text>
       </View>
 
       <View style={styles.formContainer}>
-        <Text style={styles.label}>Username</Text>
+        <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter username"
+          placeholder="Enter email"
           placeholderTextColor="#ccc"
+          value={email}
+          onChangeText={setEmail}
         />
 
         <Text style={styles.label}>Password</Text>
@@ -37,10 +81,16 @@ export default function Login() {
           style={styles.input}
           placeholder="Enter password"
           placeholderTextColor="#ccc"
+          value={password}
+          onChangeText={setPassword}
           secureTextEntry
         />
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.button}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPress={handleLogin}
+        >
           <LinearGradient
             colors={["#00c6ff", "#0072ff"]}
             start={{ x: 0, y: 0 }}
@@ -68,7 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
- headerContainer: {
+  headerContainer: {
     alignItems: "center",
     marginTop: 150,
   },

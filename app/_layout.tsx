@@ -1,9 +1,28 @@
+import { AuthProvider } from "@/context/AuthContext";
 import { Stack } from "expo-router";
+import ToastContainer from "toastify-react-native";
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="(auth)" options={ { headerShown: false }} />
-    </Stack>
+    <AuthProvider>
+      <Stack>
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="student/(dashboard)/home" options={{ headerShown: false }} />
+        <Stack.Screen name="teacher/(dashboard)/home" options={{ headerShown: false }} />
+      </Stack>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+    </AuthProvider>
   );
 }

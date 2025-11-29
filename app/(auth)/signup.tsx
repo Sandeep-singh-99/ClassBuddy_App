@@ -1,22 +1,31 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  TextInput,
-} from "react-native";
-import React, { useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
-import * as ImagePicker from "expo-image-picker";
+import { axiosClient } from "@/helper/axios";
 import { Ionicons } from "@expo/vector-icons";
-import DropDownPicker from "react-native-dropdown-picker";
+import * as ImagePicker from "expo-image-picker";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import React, { useState } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { Toast } from "toastify-react-native";
+
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignUp() {
-  const [image, setImage] = useState(null);
-  const [role, setRole] = useState(null);
+  const { login } = useAuth();
+  const [image, setImage] = useState<string | null>(null);
+  const [role, setRole] = useState<string>("student");
   const [open, setOpen] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const pickImage = async () => {
     // Ask for permission
@@ -36,6 +45,47 @@ export default function SignUp() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+    }
+  };
+
+  const handleSignup = async () => {
+    if (!fullName || !email || !password || !role) {
+      Toast.error("Please fill in all fields");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("full_name", fullName);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("role", role);
+
+      if (image) {
+        // @ts-ignore
+        formData.append("image", {
+          uri: image,
+          name: "profile.jpg",
+          type: "image/jpeg",
+        });
+      }
+
+      const res = await axiosClient.post("/mobile/auth/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const userData = res.data.user;
+      const token = res.data.access_token;
+
+      Toast.success("Registration successful");
+      await login(token, userData);
+    } catch (error: any) {
+      Toast.error(error.response?.data?.detail || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,6 +117,8 @@ export default function SignUp() {
           style={styles.input}
           placeholder="Enter username"
           placeholderTextColor="#ccc"
+          value={fullName}
+          onChangeText={setFullName}
         />
 
         <Text style={styles.label}>Email</Text>
@@ -74,6 +126,8 @@ export default function SignUp() {
           style={styles.input}
           placeholder="Enter email"
           placeholderTextColor="#ccc"
+          value={email}
+          onChangeText={setEmail}
         />
 
         <Text style={styles.label}>Role</Text>
@@ -102,16 +156,25 @@ export default function SignUp() {
           placeholder="Enter password"
           placeholderTextColor="#ccc"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.button}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPress={handleSignup}
+          disabled={loading}
+        >
           <LinearGradient
             colors={["#00c6ff", "#0072ff"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
           >
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={styles.buttonText}>
+              {loading ? "Signing Up..." : "Sign Up"}
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
 
