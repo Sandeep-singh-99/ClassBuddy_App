@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function GetAllTeacher() {
+export default function Assignment() {
   return (
     <View>
-      <Text>get_all_teacher</Text>
+      <Text>Assignment</Text>
     </View>
   )
 }

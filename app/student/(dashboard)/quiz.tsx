@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function GetAllTeacher() {
+export default function Quiz() {
   return (
     <View>
-      <Text>get_all_teacher</Text>
+      <Text>Quiz</Text>
     </View>
   )
 }
