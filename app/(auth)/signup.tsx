@@ -1,5 +1,6 @@
 import { axiosClient } from "@/helper/axios";
 import { Ionicons } from "@expo/vector-icons";
+import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -173,7 +174,8 @@ export default function SignUp() {
             style={styles.buttonGradient}
           >
             <Text style={styles.buttonText}>
-              {loading ? "Signing Up..." : "Sign Up"}
+             {loading && <Feather name="rotate-ccw" size={24} color="black" />}
+             Sign Up
             </Text>
           </LinearGradient>
         </TouchableOpacity>

@@ -1,5 +1,6 @@
 import { axiosClient } from "@/helper/axios";
 import { Ionicons } from "@expo/vector-icons";
+import Feather from '@expo/vector-icons/Feather';
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -109,7 +110,7 @@ export default function Login() {
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>Don’t have an account? </Text>
           <TouchableOpacity onPress={() => router.navigate("/signup")}>
-            <Text style={styles.signupLink}>Sign Up</Text>
+            <Text style={styles.signupLink} disabled={loading}>{loading && <Feather name="rotate-ccw" size={24} color="black" />} Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>
