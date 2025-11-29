@@ -1,15 +1,15 @@
 import { AuthProvider } from "@/context/AuthContext";
+import "@/global.css";
 import { Stack } from "expo-router";
 import ToastContainer from "toastify-react-native";
-import "@/global.css";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
       <Stack>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="student/(dashboard)/home" options={{ headerShown: false }} />
-        <Stack.Screen name="teacher/(dashboard)/home" options={{ headerShown: false }} />
+        <Stack.Screen name="student" options={{ headerShown: false }} />
+        <Stack.Screen name="teacher" options={{ headerShown: false }} />
       </Stack>
 
       <ToastContainer
