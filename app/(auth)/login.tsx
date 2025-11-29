@@ -35,11 +35,15 @@ export default function Login() {
       formData.append("email", email);
       formData.append("password", password);
 
-      const res = await axiosClient.post("/mobile/auth/login", formData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      const res = await axiosClient.post(
+        "/mobile/auth/login",
+        formData.toString(),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
 
       const userData = res.data.user;
       const token = res.data.access_token;
