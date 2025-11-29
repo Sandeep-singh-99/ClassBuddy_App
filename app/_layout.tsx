@@ -1,6 +1,7 @@
 import { AuthProvider } from "@/context/AuthContext";
 import "@/global.css";
 import { Stack } from "expo-router";
+import "react-native-reanimated";
 import ToastContainer from "toastify-react-native";
 
 export default function RootLayout() {
