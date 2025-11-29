@@ -102,7 +102,7 @@ export default function Login() {
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
           >
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText} disabled={loading}>{loading && <Feather name="rotate-ccw" size={24} color="white" className="animate-spin" />} Login</Text>
           </LinearGradient>
         </TouchableOpacity>
 
@@ -110,7 +110,7 @@ export default function Login() {
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>Don’t have an account? </Text>
           <TouchableOpacity onPress={() => router.navigate("/signup")}>
-            <Text style={styles.signupLink} disabled={loading}>{loading && <Feather name="rotate-ccw" size={24} color="black" />} Sign Up</Text>
+            <Text style={styles.signupLink}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>

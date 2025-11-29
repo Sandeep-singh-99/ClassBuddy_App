@@ -12,17 +12,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const RefreshUser = async () => {
     try {
       const token = await SecureStore.getItemAsync("token");
-      console.log("Token from SecureStore:", token);
       if (!token) {
         return;
       }
       const response = await axiosClient.get("/mobile/auth/me");
-      console.log("RefreshUser response:", response.status, response.data);
       if (response.status === 200) {
         setUser(response.data);
       }
     } catch (error) {
-      console.error("RefreshUser error:", error);
       // Toast.error("Failed to refresh user data");
       await logout();
     }
