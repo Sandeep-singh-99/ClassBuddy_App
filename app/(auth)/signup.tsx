@@ -1,26 +1,25 @@
+import { useAuth } from "@/context/AuthContext";
 import { axiosClient } from "@/helper/axios";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Image,
-  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
   Text,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
   View,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-
 import { Toast } from "toastify-react-native";
 
-import { useAuth } from "@/context/AuthContext";
-
 export default function SignUp() {
+  const router = useRouter();
   const { login } = useAuth();
   const [image, setImage] = useState<string | null>(null);
   const [role, setRole] = useState<string>("student");
@@ -29,16 +28,15 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const pickImage = async () => {
-    // Ask for permission
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert("Sorry, we need camera roll permissions to make this work!");
       return;
     }
 
-    // Open gallery
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -95,243 +93,150 @@ export default function SignUp() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1 bg-black"
+      className="flex-1"
     >
       <LinearGradient
-        colors={["#4c669f", "#3b5998", "#192f6a"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.container}
+        colors={["#4f46e5", "#7c3aed"]}
+        className="flex-1 justify-center px-6"
       >
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>ClassBuddy</Text>
+        <View className="items-center mb-8 mt-10">
+          <Text className="text-white text-3xl font-bold tracking-tight">
+            Create Account
+          </Text>
+          <Text className="text-indigo-100 text-base mt-1">
+            Join ClassBuddy today
+          </Text>
         </View>
 
-        <View style={styles.formContainer}>
-          <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-            {image ? (
-              <Image source={{ uri: image }} style={styles.profileImage} />
-            ) : (
-              <View style={styles.imagePlaceholder}>
-                <Ionicons name="camera" size={40} color="#bbb" />
-                <Text style={styles.imageText}>Upload</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+        <View className="bg-white/10 p-6 rounded-3xl backdrop-blur-lg border border-white/20 shadow-xl">
+          <View className="items-center mb-6">
+            <TouchableOpacity
+              onPress={pickImage}
+              className="w-24 h-24 rounded-full bg-white/20 items-center justify-center border-2 border-white/30 overflow-hidden"
+            >
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  className="w-full h-full"
+                  resizeMode="cover"
+                />
+              ) : (
+                <View className="items-center">
+                  <Ionicons name="camera" size={32} color="#e0e7ff" />
+                  <Text className="text-indigo-100 text-xs mt-1">Upload</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
 
-          <Text style={styles.label}>Full Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter username"
-            placeholderTextColor="#ccc"
-            value={fullName}
-            onChangeText={setFullName}
-          />
+          <View className="mb-4">
+            <Text className="text-indigo-100 text-sm font-medium mb-2 ml-1">
+              Full Name
+            </Text>
+            <View className="flex-row items-center bg-black/20 rounded-xl px-4 border border-white/10 h-12">
+              <Ionicons name="person-outline" size={20} color="#c7d2fe" />
+              <TextInput
+                className="flex-1 ml-3 text-white text-base"
+                placeholder="Enter your full name"
+                placeholderTextColor="#94a3b8"
+                value={fullName}
+                onChangeText={setFullName}
+              />
+            </View>
+          </View>
 
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter email"
-            placeholderTextColor="#ccc"
-            value={email}
-            onChangeText={setEmail}
-          />
+          <View className="mb-4">
+            <Text className="text-indigo-100 text-sm font-medium mb-2 ml-1">
+              Email Address
+            </Text>
+            <View className="flex-row items-center bg-black/20 rounded-xl px-4 border border-white/10 h-12">
+              <Ionicons name="mail-outline" size={20} color="#c7d2fe" />
+              <TextInput
+                className="flex-1 ml-3 text-white text-base"
+                placeholder="Enter your email"
+                placeholderTextColor="#94a3b8"
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                keyboardType="email-address"
+              />
+            </View>
+          </View>
 
-          <Text style={styles.label}>Role</Text>
-          <DropDownPicker
-            open={open}
-            value={role}
-            items={[
-              { label: "Student", value: "student" },
-              { label: "Teacher", value: "teacher" },
-            ]}
-            setOpen={setOpen}
-            setValue={setRole}
-            theme="DARK"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.08)",
-              borderColor: "#FFD700",
-              marginBottom: 20,
-            }}
-            textStyle={{ color: "#fff" }}
-            dropDownContainerStyle={{ backgroundColor: "#1a1a1a" }}
-          />
+          <View className="mb-4 z-50">
+            <Text className="text-indigo-100 text-sm font-medium mb-2 ml-1">
+              Role
+            </Text>
+            <DropDownPicker
+              open={open}
+              value={role}
+              items={[
+                { label: "Student", value: "student" },
+                { label: "Teacher", value: "teacher" },
+              ]}
+              setOpen={setOpen}
+              setValue={setRole}
+              theme="DARK"
+              style={{
+                backgroundColor: "rgba(0,0,0,0.2)",
+                borderColor: "rgba(255,255,255,0.1)",
+                borderRadius: 12,
+                height: 48,
+              }}
+              textStyle={{ color: "#fff", fontSize: 16 }}
+              dropDownContainerStyle={{
+                backgroundColor: "#1e1b4b",
+                borderColor: "rgba(255,255,255,0.1)",
+              }}
+              placeholder="Select your role"
+            />
+          </View>
 
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter password"
-            placeholderTextColor="#ccc"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-          />
+          <View className="mb-6">
+            <Text className="text-indigo-100 text-sm font-medium mb-2 ml-1">
+              Password
+            </Text>
+            <View className="flex-row items-center bg-black/20 rounded-xl px-4 border border-white/10 h-12">
+              <Ionicons name="lock-closed-outline" size={20} color="#c7d2fe" />
+              <TextInput
+                className="flex-1 ml-3 text-white text-base"
+                placeholder="Create a password"
+                placeholderTextColor="#94a3b8"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? "eye-off-outline" : "eye-outline"}
+                  size={20}
+                  color="#c7d2fe"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
 
           <TouchableOpacity
             activeOpacity={0.8}
-            style={styles.button}
             onPress={handleSignup}
             disabled={loading}
+            className="bg-white rounded-xl py-3.5 items-center shadow-lg active:scale-95 transform transition-all"
           >
-            <LinearGradient
-              colors={["#00c6ff", "#0072ff"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.buttonGradient}
-            >
-              <Text style={styles.buttonText}>
-                {loading ? "loading..." : "Sign Up"}
-              </Text>
-            </LinearGradient>
+            {loading ? (
+              <ActivityIndicator color="#4f46e5" />
+            ) : (
+              <Text className="text-indigo-600 font-bold text-lg">Sign Up</Text>
+            )}
           </TouchableOpacity>
+        </View>
 
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>
-              If you already have an account,{" "}
-            </Text>
-            <TouchableOpacity onPress={() => router.navigate("/login")}>
-              <Text style={styles.loginLink}>Log In</Text>
-            </TouchableOpacity>
-          </View>
+        <View className="flex-row justify-center mt-6 mb-10">
+          <Text className="text-indigo-200">Already have an account? </Text>
+          <TouchableOpacity onPress={() => router.navigate("/login")}>
+            <Text className="text-white font-bold underline">Log In</Text>
+          </TouchableOpacity>
         </View>
       </LinearGradient>
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  headerContainer: {
-    alignItems: "center",
-    marginTop: 50,
-  },
-
-  headerText: {
-    color: "yellow",
-    fontSize: 48,
-    fontWeight: "bold",
-    shadowOpacity: 5.75,
-    shadowRadius: 10,
-    shadowColor: "white",
-    shadowOffset: { height: 5, width: 5 },
-  },
-
-  formContainer: {
-    marginTop: 30,
-    paddingHorizontal: 30,
-  },
-
-  label: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 8,
-  },
-
-  imagePicker: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 30,
-  },
-
-  imagePlaceholder: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: "rgba(0,0,0,0.4)",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "#666",
-  },
-
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 2,
-    borderColor: "#fff",
-  },
-
-  imageText: {
-    color: "#bbb",
-    fontSize: 14,
-    marginTop: 4,
-  },
-
-  input: {
-    backgroundColor: "rgba(255,255,255,0.1)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.3)",
-    borderRadius: 10,
-    padding: 12,
-    color: "white",
-    marginBottom: 20,
-  },
-
-  // pickerWrapper: {
-  //   backgroundColor: "rgba(0,0,0,0.35)",
-  //   borderRadius: 12,
-  //   borderWidth: 1,
-  //   borderColor: "rgba(255,215,0,0.4)", // soft golden border
-  //   overflow: "hidden",
-  //   marginBottom: 20,
-  //   shadowColor: "#FFD700",
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.3,
-  //   shadowRadius: 6,
-  //   elevation: 4,
-  // },
-
-  // picker: {
-  //   color: "#fff",
-  //   height: 50,
-  //   paddingHorizontal: 12,
-  //   backgroundColor: "transparent",
-  //   fontSize: 16,
-  // },
-
-  resultText: {
-    marginTop: 20,
-    color: "#fff",
-    fontSize: 16,
-  },
-
-  button: {
-    marginTop: 20,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-
-  buttonGradient: {
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-
-  loginContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-
-  loginText: {
-    color: "#ccc",
-    fontSize: 14,
-  },
-
-  loginLink: {
-    color: "#00c6ff",
-    fontSize: 14,
-    fontWeight: "600",
-  },
-});
