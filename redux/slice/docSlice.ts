@@ -1,24 +1,35 @@
-
 import { axiosClient } from "@/helper/axios";
 import { IDocs } from "@/types/doc";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 export const DocsUpload = createAsyncThunk(
   "docs/upload",
-  async (data: { filename: string; file: File | null }, thunkApi) => {
+  async (data: { filename: string; file: any }, thunkApi) => {
     try {
-      const response = await axiosClient.post("/mobile/docs/upload-doc", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const formData = new FormData();
+      formData.append("filename", data.filename);
+      formData.append("file", {
+        uri: data.file.uri,
+        name: data.file.name,
+        type: data.file.type || "application/octet-stream",
+      } as any);
+
+      const response = await axiosClient.post(
+        "/mobile/docs/upload-doc",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
-          error.response?.data?.detail || "Generating notes failed"
+          error.response?.data?.detail || "Uploading doc failed"
         );
       }
     }
@@ -72,19 +83,23 @@ export const DocsStudentFetch = createAsyncThunk(
   }
 );
 
-export const DocsDelete = createAsyncThunk("docs/delete", async (docId: string, thunkApi) => {
-  try {
-    const response = await axiosClient.delete(`/mobile/docs/delete-doc/${docId}`);
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
+export const DocsDelete = createAsyncThunk(
+  "docs/delete",
+  async (docId: string, thunkApi) => {
+    try {
+      const response = await axiosClient.delete(
+        `/mobile/docs/delete-doc/${docId}`
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
           error.response?.data?.detail || "Generating notes failed"
         );
       }
+    }
   }
-})
-
+);
 
 interface DocsState {
   docs: IDocs[];
@@ -163,7 +178,8 @@ const docsSlice = createSlice({
       (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      }
+    );
 
     builder.addCase(DocsDelete.pending, (state) => {
       state.loading = true;

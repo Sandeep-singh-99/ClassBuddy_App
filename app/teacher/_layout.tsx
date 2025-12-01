@@ -25,16 +25,18 @@ export default function TeacherLayout() {
             ),
           }}
         />
+
         <Drawer.Screen
-          name="(dashboard)/insight_panel"
+          name="(dashboard)/doc"
           options={{
-            drawerLabel: "Insight Panel",
-            title: "Insight Panel",
+            drawerLabel: "Documents",
+            title: "Documents",
             drawerIcon: ({ color, size }) => (
-              <Ionicons name="analytics-outline" size={size} color={color} />
+              <Ionicons name="document-text-outline" size={size} color={color} />
             ),
           }}
         />
+        
       </Drawer>
     </GestureHandlerRootView>
   );
