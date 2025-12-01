@@ -83,6 +83,14 @@ export default function StudentLayout() {
             ),
           }}
         />
+        <Drawer.Screen
+          name="(dashboard)/[id]"
+          options={{
+            drawerItemStyle: { display: "none" },
+            drawerLabel: () => null,
+            title: "",
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );
