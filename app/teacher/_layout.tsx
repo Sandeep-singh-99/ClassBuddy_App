@@ -32,7 +32,7 @@ export default function TeacherLayout() {
             drawerLabel: "Documents",
             title: "Documents",
             drawerIcon: ({ color, size }) => (
-              <Ionicons name="document-text-outline" size={size} color={color} />
+              <Ionicons name="folder-open-outline" size={size} color={color} />
             ),
           }}
         />
@@ -43,7 +43,7 @@ export default function TeacherLayout() {
             drawerLabel: "Generate Note",
             title: "Generate Note",
             drawerIcon: ({ color, size }) => (
-              <Ionicons name="document-text-outline" size={size} color={color} />
+              <Ionicons name="create-outline" size={size} color={color} />
             ),
           }}
         />
@@ -54,11 +54,10 @@ export default function TeacherLayout() {
             drawerLabel: "Notes",
             title: "Notes",
             drawerIcon: ({ color, size }) => (
-              <Ionicons name="document-text-outline" size={size} color={color} />
+              <Ionicons name="journal-outline" size={size} color={color} />
             ),
           }}
         />
-        
       </Drawer>
     </GestureHandlerRootView>
   );

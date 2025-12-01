@@ -18,7 +18,7 @@ import {
 export default function GenerateNote() {
   const dispatch = useAppDispatch();
   const { loading, generatedNotes, error } = useAppSelector(
-    (state) => state.teacher
+    (state) => state.teachers
   );
 
   const [title, setTitle] = useState("");
