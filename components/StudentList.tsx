@@ -37,7 +37,12 @@ export default function StudentList({ students }: StudentListProps) {
                     encodeURIComponent(student.full_name || "User") +
                     "&background=random",
               }}
-              className="w-10 h-10 rounded-full bg-slate-200"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                backgroundColor: "#e2e8f0",
+              }}
             />
             <View className="flex-1 ml-3">
               <Text className="text-slate-900 font-semibold text-sm">

@@ -33,18 +33,6 @@ export default function Home() {
     setRefreshing(false);
   };
 
-  const StatCard = ({ title, value, icon, color, bgColor }: any) => (
-    <View className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 w-[48%] mb-4">
-      <View
-        className={`${bgColor} w-10 h-10 rounded-full items-center justify-center mb-3`}
-      >
-        <Ionicons name={icon} size={20} color={color} />
-      </View>
-      <Text className="text-slate-500 text-xs font-medium mb-1">{title}</Text>
-      <Text className="text-2xl font-bold text-slate-900">{value ?? 0}</Text>
-    </View>
-  );
-
   return (
     <LinearGradient
       colors={["#ffffff", "#f8fafc", "#ffffff"]}
@@ -97,3 +85,15 @@ export default function Home() {
     </LinearGradient>
   );
 }
+
+const StatCard = ({ title, value, icon, color, bgColor }: any) => (
+  <View className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 w-[48%] mb-4">
+    <View
+      className={`${bgColor} w-10 h-10 rounded-full items-center justify-center mb-3`}
+    >
+      <Ionicons name={icon} size={20} color={color} />
+    </View>
+    <Text className="text-slate-500 text-xs font-medium mb-1">{title}</Text>
+    <Text className="text-2xl font-bold text-slate-900">{value ?? 0}</Text>
+  </View>
+);
