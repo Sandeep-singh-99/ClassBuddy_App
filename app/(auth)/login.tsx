@@ -1,6 +1,5 @@
 import { axiosClient } from "@/helper/axios";
 import { Ionicons } from "@expo/vector-icons";
-import Feather from '@expo/vector-icons/Feather';
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -10,7 +9,10 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
+
 import { Toast } from "toastify-react-native";
 
 import { useAuth } from "@/context/AuthContext";
@@ -60,61 +62,68 @@ export default function Login() {
   };
 
   return (
-    <LinearGradient
-      colors={["#4c669f", "#3b5998", "#192f6a"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1 bg-black"
     >
-      <View style={styles.headerContainer}>
-        <Ionicons name="school-outline" size={64} color="yellow" />
-        <Text style={styles.headerText}>ClassBuddy</Text>
-      </View>
-
-      <View style={styles.formContainer}>
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter email"
-          placeholderTextColor="#ccc"
-          value={email}
-          onChangeText={setEmail}
-        />
-
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter password"
-          placeholderTextColor="#ccc"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.button}
-          onPress={handleLogin}
-        >
-          <LinearGradient
-            colors={["#00c6ff", "#0072ff"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.buttonGradient}
-          >
-            <Text style={styles.buttonText} disabled={loading}>{loading && <Feather name="rotate-ccw" size={24} color="white" className="animate-spin" />} Login</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        {/* Sign-up link */}
-        <View style={styles.signupContainer}>
-          <Text style={styles.signupText}>Don’t have an account? </Text>
-          <TouchableOpacity onPress={() => router.navigate("/signup")}>
-            <Text style={styles.signupLink}>Sign Up</Text>
-          </TouchableOpacity>
+      <LinearGradient
+        colors={["#4c669f", "#3b5998", "#192f6a"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.container}
+      >
+        <View style={styles.headerContainer}>
+          <Ionicons name="school-outline" size={64} color="yellow" />
+          <Text style={styles.headerText}>ClassBuddy</Text>
         </View>
-      </View>
-    </LinearGradient>
+
+        <View style={styles.formContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter email"
+            placeholderTextColor="#ccc"
+            value={email}
+            onChangeText={setEmail}
+          />
+
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter password"
+            placeholderTextColor="#ccc"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.button}
+            onPress={handleLogin}
+          >
+            <LinearGradient
+              colors={["#00c6ff", "#0072ff"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.buttonGradient}
+            >
+              <Text style={styles.buttonText} disabled={loading}>
+                {loading ? "loading..." : "Login"}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          {/* Sign-up link */}
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupText}>Don’t have an account? </Text>
+            <TouchableOpacity onPress={() => router.navigate("/signup")}>
+              <Text style={styles.signupLink}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </LinearGradient>
+    </KeyboardAvoidingView>
   );
 }
 

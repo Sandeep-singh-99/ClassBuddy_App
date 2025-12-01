@@ -1,6 +1,5 @@
 import { axiosClient } from "@/helper/axios";
 import { Ionicons } from "@expo/vector-icons";
-import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -11,9 +10,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
   View,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+
 import { Toast } from "toastify-react-native";
 
 import { useAuth } from "@/context/AuthContext";
@@ -91,103 +93,109 @@ export default function SignUp() {
   };
 
   return (
-    <LinearGradient
-      colors={["#4c669f", "#3b5998", "#192f6a"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1 bg-black"
     >
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>ClassBuddy</Text>
-      </View>
-
-      <View style={styles.formContainer}>
-        <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-          {image ? (
-            <Image source={{ uri: image }} style={styles.profileImage} />
-          ) : (
-            <View style={styles.imagePlaceholder}>
-              <Ionicons name="camera" size={40} color="#bbb" />
-              <Text style={styles.imageText}>Upload</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-
-        <Text style={styles.label}>Full Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter username"
-          placeholderTextColor="#ccc"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter email"
-          placeholderTextColor="#ccc"
-          value={email}
-          onChangeText={setEmail}
-        />
-
-        <Text style={styles.label}>Role</Text>
-        <DropDownPicker
-          open={open}
-          value={role}
-          items={[
-            { label: "Student", value: "student" },
-            { label: "Teacher", value: "teacher" },
-          ]}
-          setOpen={setOpen}
-          setValue={setRole}
-          theme="DARK"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.08)",
-            borderColor: "#FFD700",
-            marginBottom: 20,
-          }}
-          textStyle={{ color: "#fff" }}
-          dropDownContainerStyle={{ backgroundColor: "#1a1a1a" }}
-        />
-
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter password"
-          placeholderTextColor="#ccc"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.button}
-          onPress={handleSignup}
-          disabled={loading}
-        >
-          <LinearGradient
-            colors={["#00c6ff", "#0072ff"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.buttonGradient}
-          >
-            <Text style={styles.buttonText}>
-             {loading && <Feather name="rotate-ccw" size={24} color="black" />}
-             Sign Up
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        <View style={styles.loginContainer}>
-          <Text style={styles.loginText}>If you already have an account, </Text>
-          <TouchableOpacity onPress={() => router.navigate("/login")}>
-            <Text style={styles.loginLink}>Log In</Text>
-          </TouchableOpacity>
+      <LinearGradient
+        colors={["#4c669f", "#3b5998", "#192f6a"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.container}
+      >
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>ClassBuddy</Text>
         </View>
-      </View>
-    </LinearGradient>
+
+        <View style={styles.formContainer}>
+          <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.profileImage} />
+            ) : (
+              <View style={styles.imagePlaceholder}>
+                <Ionicons name="camera" size={40} color="#bbb" />
+                <Text style={styles.imageText}>Upload</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+
+          <Text style={styles.label}>Full Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter username"
+            placeholderTextColor="#ccc"
+            value={fullName}
+            onChangeText={setFullName}
+          />
+
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter email"
+            placeholderTextColor="#ccc"
+            value={email}
+            onChangeText={setEmail}
+          />
+
+          <Text style={styles.label}>Role</Text>
+          <DropDownPicker
+            open={open}
+            value={role}
+            items={[
+              { label: "Student", value: "student" },
+              { label: "Teacher", value: "teacher" },
+            ]}
+            setOpen={setOpen}
+            setValue={setRole}
+            theme="DARK"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.08)",
+              borderColor: "#FFD700",
+              marginBottom: 20,
+            }}
+            textStyle={{ color: "#fff" }}
+            dropDownContainerStyle={{ backgroundColor: "#1a1a1a" }}
+          />
+
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter password"
+            placeholderTextColor="#ccc"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.button}
+            onPress={handleSignup}
+            disabled={loading}
+          >
+            <LinearGradient
+              colors={["#00c6ff", "#0072ff"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.buttonGradient}
+            >
+              <Text style={styles.buttonText}>
+                {loading ? "loading..." : "Sign Up"}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <View style={styles.loginContainer}>
+            <Text style={styles.loginText}>
+              If you already have an account,{" "}
+            </Text>
+            <TouchableOpacity onPress={() => router.navigate("/login")}>
+              <Text style={styles.loginLink}>Log In</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </LinearGradient>
+    </KeyboardAvoidingView>
   );
 }
 
