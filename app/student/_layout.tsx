@@ -102,6 +102,24 @@ export default function StudentLayout() {
             ),
           }}
         />
+
+        <Drawer.Screen
+          name="(dashboard)/quiz_ques"
+          options={{
+            drawerItemStyle: { display: "none" },
+            drawerLabel: () => null,
+            title: "",
+          }}
+        />
+
+        <Drawer.Screen
+          name="(dashboard)/take_quiz/[id]"
+          options={{
+            drawerItemStyle: { display: "none" },
+            drawerLabel: () => null,
+            title: "",
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );

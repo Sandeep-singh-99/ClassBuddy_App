@@ -1,6 +1,6 @@
 import { axiosClient } from "@/helper/axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 export const InterviewPrepCreate = createAsyncThunk(
@@ -40,16 +40,46 @@ export const GetAllInterviewPrep = createAsyncThunk(
   }
 );
 
+export const submitQuiz = createAsyncThunk(
+  "interview/submit",
+  async (
+    data: {
+      name: string;
+      description: string;
+      questions: any[];
+      score: number;
+      user_answers: Record<string, string>;
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosClient.post(
+        "/mobile/interview-prep/submit-quiz",
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(
+          error.response?.data?.detail || "Submitting quiz failed"
+        );
+      }
+    }
+  }
+);
+
 interface InterviewPrepState {
   loading: boolean;
   error: string | null;
   data: any | null;
+  currentQuiz: any | null;
 }
 
 const initialState: InterviewPrepState = {
   loading: false,
   error: null,
   data: null,
+  currentQuiz: null,
 };
 
 const interviewSlice = createSlice({
@@ -65,7 +95,7 @@ const interviewSlice = createSlice({
         InterviewPrepCreate.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.data = action.payload;
+          state.currentQuiz = action.payload;
         }
       )
       .addCase(

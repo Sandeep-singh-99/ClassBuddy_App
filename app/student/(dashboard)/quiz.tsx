@@ -1,3 +1,4 @@
+import CreateQuizDialog from "@/components/CreateQuizDialog";
 import PerformanceChat from "@/components/PerformanceChat";
 import QuizDetailsDialog from "@/components/QuizDetailsDialog";
 import RecentQuizItem from "@/components/RecentQuizItem";
@@ -11,6 +12,7 @@ import {
   FlatList,
   RefreshControl,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -20,6 +22,7 @@ export default function Quiz() {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [createDialogVisible, setCreateDialogVisible] = useState(false);
 
   useEffect(() => {
     dispatch(GetAllInterviewPrep());
@@ -67,7 +70,7 @@ export default function Quiz() {
             </Text>
           </View>
         }
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 80 }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -91,10 +94,24 @@ export default function Quiz() {
         </View>
       )}
 
+      {/* Floating Action Button */}
+      <TouchableOpacity
+        onPress={() => setCreateDialogVisible(true)}
+        className="absolute bottom-6 right-6 bg-indigo-600 w-14 h-14 rounded-full items-center justify-center shadow-lg shadow-indigo-300"
+        activeOpacity={0.8}
+      >
+        <Ionicons name="add" size={30} color="white" />
+      </TouchableOpacity>
+
       <QuizDetailsDialog
         visible={dialogVisible}
         onClose={closeDialog}
         quiz={selectedQuiz}
+      />
+
+      <CreateQuizDialog
+        visible={createDialogVisible}
+        onClose={() => setCreateDialogVisible(false)}
       />
     </View>
   );
