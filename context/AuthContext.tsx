@@ -1,5 +1,5 @@
 import { axiosClient } from "@/helper/axios";
-import { useRouter } from "expo-router";
+import { useRootNavigationState, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -36,11 +36,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     router.replace("/(auth)/login");
   };
 
+  const rootNavigationState = useRootNavigationState();
+
   useEffect(() => {
     RefreshUser();
   }, []);
 
   useEffect(() => {
+    const navigationKey = rootNavigationState?.key;
+    if (!navigationKey) return;
+
     if (user) {
       if (user.role === "teacher") {
         router.replace("/teacher/(dashboard)/home");
@@ -48,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         router.replace("/student/(dashboard)/home");
       }
     }
-  }, [user]);
+  }, [user, rootNavigationState?.key]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, RefreshUser, login, logout }}>

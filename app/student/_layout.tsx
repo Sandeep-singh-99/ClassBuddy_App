@@ -91,6 +91,17 @@ export default function StudentLayout() {
             title: "",
           }}
         />
+
+        <Drawer.Screen
+          name="(dashboard)/career_insight"
+          options={{
+            drawerLabel: "Career Insight",
+            title: "Career Insight",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="stats-chart-outline" size={size} color={color} />
+            ),
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );

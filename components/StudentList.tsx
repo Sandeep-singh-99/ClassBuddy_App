@@ -20,31 +20,36 @@ export default function StudentList({ students }: StudentListProps) {
       <Text className="text-lg font-bold text-slate-900 mb-4">
         Recent Students
       </Text>
-      {students.map((student, index) => (
-        <View
-          key={student.id}
-          className={`flex-row items-center py-3 ${
-            index !== students.length - 1 ? "border-b border-slate-50" : ""
-          }`}
-        >
-          <Image
-            source={{
-              uri:
-                student.image_url ||
-                "https://ui-avatars.com/api/?name=" +
-                  encodeURIComponent(student.full_name) +
-                  "&background=random",
-            }}
-            className="w-10 h-10 rounded-full bg-slate-200"
-          />
-          <View className="flex-1 ml-3">
-            <Text className="text-slate-900 font-semibold text-sm">
-              {student.full_name}
-            </Text>
-            <Text className="text-slate-500 text-xs">{student.email}</Text>
+      {students.map((student, index) => {
+        if (!student) return null;
+        return (
+          <View
+            key={student.id || index}
+            className={`flex-row items-center py-3 ${
+              index !== students.length - 1 ? "border-b border-slate-50" : ""
+            }`}
+          >
+            <Image
+              source={{
+                uri:
+                  student.image_url ||
+                  "https://ui-avatars.com/api/?name=" +
+                    encodeURIComponent(student.full_name || "User") +
+                    "&background=random",
+              }}
+              className="w-10 h-10 rounded-full bg-slate-200"
+            />
+            <View className="flex-1 ml-3">
+              <Text className="text-slate-900 font-semibold text-sm">
+                {student.full_name || "Unknown"}
+              </Text>
+              <Text className="text-slate-500 text-xs">
+                {student.email || "No email"}
+              </Text>
+            </View>
           </View>
-        </View>
-      ))}
+        );
+      })}
     </View>
   );
 }
