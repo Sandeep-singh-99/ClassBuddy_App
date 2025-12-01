@@ -47,6 +47,17 @@ export default function TeacherLayout() {
             ),
           }}
         />
+
+        <Drawer.Screen
+          name="(dashboard)/note"
+          options={{
+            drawerLabel: "Notes",
+            title: "Notes",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="document-text-outline" size={size} color={color} />
+            ),
+          }}
+        />
         
       </Drawer>
     </GestureHandlerRootView>

@@ -1,7 +1,7 @@
 import { axiosClient } from "@/helper/axios";
 import type { NoteState } from "@/types/note";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 export const teacherNotes = createAsyncThunk(
@@ -36,34 +36,39 @@ export const teachersGetNoteById = createAsyncThunk(
   }
 );
 
-export const deleteNoteById = createAsyncThunk("notes/delete-note-by-id", async (id: string, thunkApi) => {
-  try {
-    const response = await axiosClient.delete(`/mobile/notes/delete-note/${id}`);
-    return response.data;
-  } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      return thunkApi.rejectWithValue(
-        error.response?.data?.detail || "Deleting note by ID failed"
+export const deleteNoteById = createAsyncThunk(
+  "notes/delete-note-by-id",
+  async (id: string, thunkApi) => {
+    try {
+      const response = await axiosClient.delete(
+        `/mobile/notes/delete-note/${id}`
       );
+      return response.data;
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(
+          error.response?.data?.detail || "Deleting note by ID failed"
+        );
+      }
     }
   }
-})
+);
 
-export const studentJoinGroupNote = createAsyncThunk("notes/student-join-group-note", async (_ , thunkApi) => {
-  try {
-    const response = await axiosClient.get("/mobile/auth/student/notes")
-    return response.data;
-  } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      return thunkApi.rejectWithValue(
-        error.response?.data?.detail || "Joining group note failed"
-      );
-    }  
+export const studentJoinGroupNote = createAsyncThunk(
+  "notes/student-join-group-note",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosClient.get("/mobile/auth/student/notes");
+      return response.data;
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(
+          error.response?.data?.detail || "Joining group note failed"
+        );
+      }
+    }
   }
-})
-
-
-
+);
 
 interface NoteSliceState {
   notes: NoteState[];
@@ -92,7 +97,7 @@ const noteSlice = createSlice({
     });
     builder.addCase(
       teacherNotes.fulfilled,
-      (state, action:PayloadAction<{ count: number; notes: NoteState[] }>) => {
+      (state, action: PayloadAction<{ count: number; notes: NoteState[] }>) => {
         state.notes = action.payload.notes;
         state.count = action.payload.count;
         state.loading = false;
@@ -132,6 +137,10 @@ const noteSlice = createSlice({
     builder.addCase(studentJoinGroupNote.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+    });
+
+    builder.addCase(deleteNoteById.fulfilled, (state, action) => {
+      state.notes = state.notes.filter((note) => note.id !== action.meta.arg);
     });
   },
 });
