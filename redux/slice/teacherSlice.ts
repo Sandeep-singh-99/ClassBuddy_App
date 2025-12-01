@@ -252,11 +252,26 @@ const tSlice = createSlice({
       state.error = action.payload as string;
       state.generatedNotes = null;
     });
+    builder.addCase(joinTeacherGroup.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(joinTeacherGroup.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      // Assuming the response contains the group_id or we can pass it via meta if needed.
+      // However, the thunk payload might not have group_id directly if the backend doesn't return it.
+      // But we can use `action.meta.arg` to get the groupId passed to the thunk.
+      const groupId = action.meta.arg;
+      state.joinedStatus[groupId] = true;
+    });
+    builder.addCase(joinTeacherGroup.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
   },
 });
 
-export const {
-  clearGeneratedNotes,
-} = tSlice.actions;
+export const { clearGeneratedNotes } = tSlice.actions;
 
 export default tSlice.reducer;
