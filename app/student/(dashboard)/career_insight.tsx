@@ -1,3 +1,4 @@
+import GenerateDashboardDataDialog from "@/components/GenerateDashboardDataDialog";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { FetchDashboardData } from "@/redux/slice/dashboardSlice";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,6 +10,7 @@ import {
   RefreshControl,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { BarChart } from "react-native-chart-kit";
@@ -19,6 +21,8 @@ export default function CareerInsight() {
   const dispatch = useAppDispatch();
   const { data, loading, error } = useAppSelector((state) => state.dashboard);
   const [refreshing, setRefreshing] = useState(false);
+
+  const [showGenerateDialog, setShowGenerateDialog] = useState(false);
 
   useEffect(() => {
     dispatch(FetchDashboardData());
@@ -51,7 +55,18 @@ export default function CareerInsight() {
         <Text className="text-slate-900 text-lg font-medium mt-4 text-center">
           Failed to load insights
         </Text>
-        <Text className="text-slate-500 text-center mt-2">{error}</Text>
+        <Text className="text-slate-500 text-center mt-2 mb-6">{error}</Text>
+        <TouchableOpacity
+          onPress={() => setShowGenerateDialog(true)}
+          className="bg-indigo-600 px-6 py-3 rounded-xl"
+        >
+          <Text className="text-white font-bold">Generate Insights</Text>
+        </TouchableOpacity>
+
+        <GenerateDashboardDataDialog
+          visible={showGenerateDialog}
+          onClose={() => setShowGenerateDialog(false)}
+        />
       </View>
     );
   }
