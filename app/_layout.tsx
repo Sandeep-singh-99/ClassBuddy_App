@@ -1,10 +1,19 @@
 import { AuthProvider } from "@/context/AuthContext";
 import "@/global.css";
 import { Stack } from "expo-router";
-import "react-native-reanimated";
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
 import { Provider } from "react-redux";
 import ToastContainer from "toastify-react-native";
 import { store } from "../redux/store";
+
+// Configure Reanimated logger
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false, // Disable strict mode
+});
 
 export default function RootLayout() {
   return (
