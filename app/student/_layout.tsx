@@ -2,6 +2,7 @@ import CustomDrawerContent from "@/components/CustomDrawerContent";
 import { Ionicons } from "@expo/vector-icons";
 import { Drawer } from "expo-router/drawer";
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function StudentLayout() {
@@ -12,6 +13,24 @@ export default function StudentLayout() {
           headerShown: true,
           drawerActiveTintColor: "#2563eb",
           drawerInactiveTintColor: "#4b5563",
+          headerStyle: {
+            backgroundColor: "#ffffff",
+          },
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "#0f172a",
+          },
+          headerTintColor: "#0f172a",
+          headerRight: () => (
+            <TouchableOpacity style={{ marginRight: 16 }}>
+              <Ionicons
+                name="notifications-outline"
+                size={24}
+                color="#0f172a"
+              />
+            </TouchableOpacity>
+          ),
         }}
         drawerContent={(props) => <CustomDrawerContent {...props} />}
       >
