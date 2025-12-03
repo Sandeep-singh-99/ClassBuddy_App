@@ -2,15 +2,17 @@
 
 ClassBuddy is a comprehensive mobile application designed to streamline classroom activities for both students and teachers. It provides a seamless experience for managing quizzes, assignments, career insights, and notes.
 
-![classbuddy App](./screenshot/Gemini_Generated_Image_ukc8bvukc8bvukc8.png)
 
-![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.12_15e259ec.jpg)
+<p align="center">
+  <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.12_15e259ec.jpg" width="250" />
+  <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.13_3893a3de.jpg" width="250" />
+</p>
 
-![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.13_3893a3de.jpg)
+<p align="center">
+  <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.14_55886068.jpg" width="250" />
+  <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.15_10349c3e.jpg" width="250" />
+</p>
 
-![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.14_55886068.jpg)
-
-![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.15_10349c3e.jpg)
 
 ## 🌟 Features
 
