@@ -1,50 +1,95 @@
-# Welcome to your Expo app 👋
+# ClassBuddy App �
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+ClassBuddy is a comprehensive mobile application designed to streamline classroom activities for both students and teachers. It provides a seamless experience for managing quizzes, assignments, career insights, and notes.
 
-## Get started
+![classbuddy App](./screenshot/Gemini_Generated_Image_ukc8bvukc8bvukc8.png)
 
-1. Install dependencies
+![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.12_15e259ec.jpg)
 
-   ```bash
-   npm install
-   ```
+![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.13_3893a3de.jpg)
 
-2. Start the app
+![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.14_55886068.jpg)
 
-   ```bash
-   npx expo start
-   ```
+![classbuddy App](./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.15_10349c3e.jpg)
 
-In the output, you'll find options to open the app in a
+## 🌟 Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🎓 For Students
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Dashboard**: Access quizzes, assignments, and personalized career insights.
+- **Quizzes**: Take quizzes and view results instantly.
+- **Assignments**: View and submit assignments.
+- **Notes**: Create and manage personal study notes.
+- **Career Insights**: Get AI-driven career recommendations.
 
-## Get a fresh project
+### 👨‍🏫 For Teachers
 
-When you're ready, run:
+- **Dashboard**: Manage students and classes.
+- **Create Content**: Easily create quizzes and assignments.
+- **Track Progress**: Monitor student performance.
 
-```bash
-npm run reset-project
-```
+### 🔐 Authentication
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- Secure Login and Registration for both students and teachers.
 
-## Learn more
+### 🎨 UI/UX
+- **Modern Design**: Built with NativeWind for a beautiful, responsive interface.
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🛠 Tech Stack
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Frontend
 
-## Join the community
+- **Framework**: [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **State Management**: [Redux Toolkit](https://redux-toolkit.js.org/)
+- **Styling**: [NativeWind](https://www.nativewind.dev/) (Tailwind CSS)
+- **Navigation**: [React Navigation](https://reactnavigation.org/) (File-based routing)
 
-Join our community of developers creating universal apps.
+### Backend
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **Framework**: [FastAPI](https://fastapi.tiangolo.com/) (Python)
+
+## 🚀 Get Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/)
+- [Expo Go](https://expo.dev/client) app on your mobile device (or an emulator)
+
+### Installation
+
+1.  **Clone the repository**
+
+    ```bash
+    git clone <repository-url>
+    cd ClassBuddy_App
+    ```
+
+2.  **Install dependencies**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Start the app**
+
+    ```bash
+    npx expo start
+    ```
+
+4.  **Run on device/emulator**
+    - Scan the QR code with **Expo Go** (Android) or the Camera app (iOS).
+    - Press `a` for Android Emulator or `i` for iOS Simulator.
+
+## 📂 Project Structure
+
+- **app/**: Main application screens and navigation (file-based routing).
+- **components/**: Reusable UI components.
+- **redux/**: Redux slices and store configuration.
+- **assets/**: Images, fonts, and other static assets.
+- **hooks/**: Custom React hooks.
+- **types/**: TypeScript type definitions.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
