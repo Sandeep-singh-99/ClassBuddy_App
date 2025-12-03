@@ -1,4 +1,4 @@
-# ClassBuddy App �
+# ClassBuddy App
 
 ClassBuddy is a comprehensive mobile application designed to streamline classroom activities for both students and teachers. It provides a seamless experience for managing quizzes, assignments, career insights, and notes.
 
