@@ -2,7 +2,6 @@
 
 ClassBuddy is a comprehensive mobile application designed to streamline classroom activities for both students and teachers. It provides a seamless experience for managing quizzes, assignments, career insights, and notes.
 
-
 <p align="center">
   <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.12_15e259ec.jpg" width="250" />
   <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.13_3893a3de.jpg" width="250" />
@@ -12,7 +11,6 @@ ClassBuddy is a comprehensive mobile application designed to streamline classroo
   <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.14_55886068.jpg" width="250" />
   <img src="./screenshot/WhatsApp%20Image%202025-12-01%20at%2018.52.15_10349c3e.jpg" width="250" />
 </p>
-
 
 ## 🌟 Features
 
@@ -34,7 +32,14 @@ ClassBuddy is a comprehensive mobile application designed to streamline classroo
 
 - Secure Login and Registration for both students and teachers.
 
+### 💬 Communication
+
+- **Real-time Messaging**: Instant messaging powered by Redis and WebSockets.
+- **Group Chats**: Create and participate in group conversations.
+- **Cross-platform Sync**: Seamless synchronization across web and mobile devices.
+
 ### 🎨 UI/UX
+
 - **Modern Design**: Built with NativeWind for a beautiful, responsive interface.
 
 ## 🛠 Tech Stack
