@@ -58,6 +58,16 @@ export default function TeacherLayout() {
             ),
           }}
         />
+        <Drawer.Screen
+          name="(dashboard)/chat/index"
+          options={{
+            drawerLabel: "Chat",
+            title: "Class Chat",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="chatbubbles-outline" size={size} color={color} />
+            ),
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );

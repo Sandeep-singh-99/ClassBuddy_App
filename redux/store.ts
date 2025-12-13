@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import docReducer from "./slice/docSlice";
-import noteReducer from "./slice/noteSlice";
-import teacherReducer from "./slice/teacherSlice";
-import submissionReducer from "./slice/submissionSlice";
 import assignmentReducer from "./slice/assignmentSlice";
+import chatReducer from "./slice/chatSlice";
 import dashboardReducer from "./slice/dashboardSlice";
+import docReducer from "./slice/docSlice";
 import interviewReducer from "./slice/interviewSlice";
+import noteReducer from "./slice/noteSlice";
+import submissionReducer from "./slice/submissionSlice";
+import teacherReducer from "./slice/teacherSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +17,7 @@ export const store = configureStore({
     assignments: assignmentReducer,
     dashboard: dashboardReducer,
     interviews: interviewReducer,
-
+    chat: chatReducer,
   },
 });
 
