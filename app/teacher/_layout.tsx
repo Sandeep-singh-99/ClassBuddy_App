@@ -58,6 +58,16 @@ export default function TeacherLayout() {
             ),
           }}
         />
+
+        <Drawer.Screen
+          name="(dashboard)/[id]"
+          options={{
+            drawerItemStyle: { display: "none" },
+            drawerLabel: () => null,
+            title: "",
+          }}
+        />
+
         <Drawer.Screen
           name="(dashboard)/chat/index"
           options={{

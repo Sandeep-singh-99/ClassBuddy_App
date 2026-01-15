@@ -4,12 +4,14 @@ import { teacherNotes } from "@/redux/slice/noteSlice";
 import { NoteState } from "@/types/note";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -17,6 +19,8 @@ export default function Note() {
   const dispatch = useAppDispatch();
   const { notes, loading, error } = useAppSelector((state) => state.notes);
   const [refreshing, setRefreshing] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(teacherNotes());
@@ -29,7 +33,14 @@ export default function Note() {
   };
 
   const renderItem = ({ item }: { item: NoteState }) => (
-    <View className="mb-4 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+     <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() =>
+            router.push({ pathname: "/teacher/[id]", params: { id: item.id } })
+          }
+          className="mb-4 overflow-hidden rounded-2xl shadow-sm bg-white border border-slate-100"
+        >
+    <View className="p-5">
       <View className="flex-row justify-between items-start mb-2">
         <View className="flex-1 mr-3">
           <Text
@@ -49,6 +60,7 @@ export default function Note() {
         </View>
       </View>
     </View>
+    </TouchableOpacity>
   );
 
   return (

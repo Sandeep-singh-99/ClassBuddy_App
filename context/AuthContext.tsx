@@ -1,5 +1,4 @@
 import { axiosClient } from "@/helper/axios";
-import { useRootNavigationState, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -7,7 +6,6 @@ const AuthContext = createContext<any | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState(null);
-  const router = useRouter();
 
   const RefreshUser = async () => {
     try {
@@ -33,27 +31,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     await SecureStore.deleteItemAsync("token");
     setUser(null);
-    router.replace("/(auth)/login");
   };
-
-  const rootNavigationState = useRootNavigationState();
 
   useEffect(() => {
     RefreshUser();
   }, []);
-
-  useEffect(() => {
-    const navigationKey = rootNavigationState?.key;
-    if (!navigationKey) return;
-
-    if (user) {
-      if (user.role === "teacher") {
-        router.replace("/teacher/(dashboard)/home");
-      } else {
-        router.replace("/student/(dashboard)/home");
-      }
-    }
-  }, [user, rootNavigationState?.key]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, RefreshUser, login, logout }}>
