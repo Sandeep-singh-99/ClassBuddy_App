@@ -19,7 +19,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Toast from "toastify-react-native";
 
 export default function PaymentPage() {
   const dispatch = useAppDispatch();
@@ -141,7 +140,7 @@ export default function PaymentPage() {
                       {plan.plan_name}
                     </Text>
                     <Text className="text-slate-400 text-xs mt-1">
-                      ID: {plan.id.slice(0, 8)}...
+                      ID: {(plan.id ?? "").slice(0, 8)}...
                     </Text>
                   </View>
                   <View className="bg-indigo-50 px-3 py-1 rounded-full">

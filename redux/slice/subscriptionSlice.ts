@@ -26,7 +26,7 @@ export const createSubscriptionPlan = createAsyncThunk(
   async (data: Partial<ISubscriptionPlan>, thunkApi) => {
     try {
       const response = await axiosClient.post(
-        "/mobile/subscription/add-plan",
+        "/mobile/subscription/plan",
         data
       );
       return response.data;

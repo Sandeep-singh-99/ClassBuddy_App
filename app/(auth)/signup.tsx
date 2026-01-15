@@ -232,7 +232,7 @@ export default function SignUp() {
 
         <View className="flex-row justify-center mt-6 mb-10">
           <Text className="text-indigo-200">Already have an account? </Text>
-          <TouchableOpacity onPress={() => router.navigate("/login")}>
+          <TouchableOpacity onPress={() => router.replace("/login")}>
             <Text className="text-white font-bold underline">Log In</Text>
           </TouchableOpacity>
         </View>

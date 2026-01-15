@@ -36,7 +36,6 @@ export default function CreateSubscriptionDialog({
     plan_name: "",
     amount: "",
     validity_days: "",
-    group_id: "", // In a real scenario, this might need to optionally come from props or be inferred
   });
 
   useEffect(() => {
@@ -45,14 +44,12 @@ export default function CreateSubscriptionDialog({
         plan_name: plan.plan_name,
         amount: String(plan.amount),
         validity_days: String(plan.validity_days),
-        group_id: plan.group_id,
       });
     } else {
       setFormData({
         plan_name: "",
         amount: "",
         validity_days: "",
-        group_id: "",
       });
     }
   }, [plan, visible]);
@@ -69,10 +66,6 @@ export default function CreateSubscriptionDialog({
         plan_name: formData.plan_name,
         amount: Number(formData.amount),
         validity_days: Number(formData.validity_days),
-        // If user didn't edit group_id (or if we hide it), we keep original.
-        // For creation, the backend might assign it based on teacher, OR we need to let them pick?
-        // Assuming for now simple logic:
-        group_id: formData.group_id,
       };
 
       if (plan) {
