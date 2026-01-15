@@ -7,6 +7,7 @@ import interviewReducer from "./slice/interviewSlice";
 import noteReducer from "./slice/noteSlice";
 import submissionReducer from "./slice/submissionSlice";
 import teacherReducer from "./slice/teacherSlice";
+import subscriptionReducer from "./slice/subscriptionSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     interviews: interviewReducer,
     chat: chatReducer,
+    subscription: subscriptionReducer,
   },
 });
 

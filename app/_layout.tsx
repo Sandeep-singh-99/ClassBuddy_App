@@ -1,7 +1,13 @@
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import "@/global.css";
-import { Stack, useRootNavigationState, useRouter } from "expo-router";
+import {
+  Stack,
+  useRootNavigationState,
+  useRouter,
+  useSegments,
+} from "expo-router";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
@@ -21,26 +27,24 @@ function MainLayout() {
   const router = useRouter();
   const rootNavigationState = useRootNavigationState();
 
+  const segments = useSegments();
+
   useEffect(() => {
     const navigationKey = rootNavigationState?.key;
     if (!navigationKey) return;
 
-    if (!user) {
-      // Optional: Redirect to login if not authenticated and not in auth group
-      // This logic depends on desired behavior. The original AuthProvider didn't strictly force login on mount for all paths,
-      // but logout redirected to login.
-      // We can replicate logout redirect in the logout function via a callback or effect here.
-      // But the original code only redirected TO dashboard if user exists.
-    }
-
     if (user) {
       if (user.role === "teacher") {
-        router.replace("/teacher/(dashboard)/home");
+        if (segments[0] !== "teacher") {
+          router.replace("/teacher/(dashboard)/home");
+        }
       } else {
-        router.replace("/student/(dashboard)/home");
+        if (segments[0] !== "student") {
+          router.replace("/student/(dashboard)/home");
+        }
       }
     }
-  }, [user, rootNavigationState?.key]);
+  }, [user, rootNavigationState?.key, segments]);
 
   return (
     <Stack>
@@ -53,23 +57,25 @@ function MainLayout() {
 
 export default function RootLayout() {
   return (
-    <Provider store={store}>
-      <AuthProvider>
-        <MainLayout />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <AuthProvider>
+          <MainLayout />
 
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      </AuthProvider>
-    </Provider>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+        </AuthProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
