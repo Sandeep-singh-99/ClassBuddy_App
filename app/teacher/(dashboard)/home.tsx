@@ -87,7 +87,16 @@ export default function Home() {
 }
 
 const StatCard = ({ title, value, icon, color, bgColor }: any) => (
-  <View className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 w-[48%] mb-4">
+  <View
+    className="bg-white p-5 rounded-2xl border border-slate-100 w-[48%] mb-4"
+    style={{
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 2,
+      elevation: 2,
+    }}
+  >
     <View
       className={`${bgColor} w-10 h-10 rounded-full items-center justify-center mb-3`}
     >

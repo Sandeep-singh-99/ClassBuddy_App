@@ -16,7 +16,16 @@ export default function StudentList({ students }: StudentListProps) {
   }
 
   return (
-    <View className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+    <View
+      className="bg-white rounded-2xl p-5 border border-slate-100"
+      style={{
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        elevation: 2,
+      }}
+    >
       <Text className="text-lg font-bold text-slate-900 mb-4">
         Recent Students
       </Text>

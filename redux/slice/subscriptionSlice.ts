@@ -1,5 +1,5 @@
 import { axiosClient } from "@/helper/axios";
-import { ISubscriptionPlan } from "@/types/subscription";
+import { IStats, ISubscriptionPlan } from "@/types/subscription";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
@@ -81,16 +81,35 @@ export const deleteSubscriptionPlan = createAsyncThunk(
   }
 );
 
+export const fetchTeacherSubscriptionStats = createAsyncThunk(
+  "subscription/stats",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosClient.get("/mobile/subscription/teacher/stats");
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(
+          error.response?.data?.detail || "Fetching subscription stats failed"
+        );
+      }
+      return thunkApi.rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
 interface SubscriptionState {
   plans: ISubscriptionPlan[];
   loading: boolean;
   error: string | null;
+  stats: IStats | null;
 }
 
 const initialState: SubscriptionState = {
   plans: [],
   loading: false,
   error: null,
+  stats: null,
 };
 
 const subscriptionSlice = createSlice({
@@ -174,6 +193,24 @@ const subscriptionSlice = createSlice({
         }
       )
       .addCase(deleteSubscriptionPlan.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // Fetch Teacher Stats
+      .addCase(fetchTeacherSubscriptionStats.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchTeacherSubscriptionStats.fulfilled,
+        (state, action: PayloadAction<IStats>) => {
+          state.stats = action.payload;
+          state.loading = false;
+          state.error = null;
+        }
+      )
+      .addCase(fetchTeacherSubscriptionStats.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

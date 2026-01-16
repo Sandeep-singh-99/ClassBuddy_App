@@ -1,8 +1,11 @@
 import CreateSubscriptionDialog from "@/components/CreateSubscriptionDialog";
+import SubscriptionStats from "@/components/SubscriptionStats";
+
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import {
   deleteSubscriptionPlan,
   fetchOwnerSubscriptionPlans,
+  fetchTeacherSubscriptionStats,
 } from "@/redux/slice/subscriptionSlice";
 import { ISubscriptionPlan } from "@/types/subscription";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,7 +26,9 @@ import {
 export default function PaymentPage() {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const { plans, loading } = useAppSelector((state) => state.subscription);
+  const { plans, loading, stats } = useAppSelector(
+    (state) => state.subscription
+  );
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<ISubscriptionPlan | null>(
     null
@@ -53,6 +58,7 @@ export default function PaymentPage() {
 
   useEffect(() => {
     fetchData();
+    dispatch(fetchTeacherSubscriptionStats());
   }, [dispatch]);
 
   const onRefresh = async () => {
@@ -95,6 +101,8 @@ export default function PaymentPage() {
           />
         }
       >
+        <SubscriptionStats stats={stats} />
+
         <View className="mb-6">
           <Text className="text-2xl font-bold text-slate-800">
             Subscription Plans

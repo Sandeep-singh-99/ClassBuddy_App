@@ -9,3 +9,9 @@ export interface ISubscriptionPlan {
     updated_at: string;
 }
 
+export interface IStats {
+    total_students: number;
+    total_earnings: number;
+    paid_students: number;
+}
+
