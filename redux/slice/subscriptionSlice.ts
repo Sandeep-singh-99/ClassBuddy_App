@@ -1,5 +1,5 @@
 import { axiosClient } from "@/helper/axios";
-import { IStats, ISubscriptionPlan } from "@/types/subscription";
+import { IAnalytics, IStats, ISubscriptionPlan } from "@/types/subscription";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
@@ -85,7 +85,9 @@ export const fetchTeacherSubscriptionStats = createAsyncThunk(
   "subscription/stats",
   async (_, thunkApi) => {
     try {
-      const response = await axiosClient.get("/mobile/subscription/teacher/stats");
+      const response = await axiosClient.get(
+        "/mobile/subscription/teacher/stats"
+      );
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -98,11 +100,32 @@ export const fetchTeacherSubscriptionStats = createAsyncThunk(
   }
 );
 
+export const fetchSubscriptionAnalytics = createAsyncThunk(
+  "subscription/analytics",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosClient.get(
+        "/mobile/subscription/teacher/analytics"
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(
+          error.response?.data?.detail ||
+            "Fetching subscription analytics failed"
+        );
+      }
+      return thunkApi.rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
 interface SubscriptionState {
   plans: ISubscriptionPlan[];
   loading: boolean;
   error: string | null;
   stats: IStats | null;
+  analytics: IAnalytics | null;
 }
 
 const initialState: SubscriptionState = {
@@ -110,6 +133,7 @@ const initialState: SubscriptionState = {
   loading: false,
   error: null,
   stats: null,
+  analytics: null,
 };
 
 const subscriptionSlice = createSlice({
@@ -211,6 +235,24 @@ const subscriptionSlice = createSlice({
         }
       )
       .addCase(fetchTeacherSubscriptionStats.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // Fetch Subscription Analytics
+      .addCase(fetchSubscriptionAnalytics.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchSubscriptionAnalytics.fulfilled,
+        (state, action: PayloadAction<IAnalytics>) => {
+          state.analytics = action.payload;
+          state.loading = false;
+          state.error = null;
+        }
+      )
+      .addCase(fetchSubscriptionAnalytics.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

@@ -1,10 +1,12 @@
 import CreateSubscriptionDialog from "@/components/CreateSubscriptionDialog";
+import SubscriptionAnalytics from "@/components/SubscriptionAnalytics";
 import SubscriptionStats from "@/components/SubscriptionStats";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import {
   deleteSubscriptionPlan,
   fetchOwnerSubscriptionPlans,
+  fetchSubscriptionAnalytics,
   fetchTeacherSubscriptionStats,
 } from "@/redux/slice/subscriptionSlice";
 import { ISubscriptionPlan } from "@/types/subscription";
@@ -26,7 +28,7 @@ import {
 export default function PaymentPage() {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const { plans, loading, stats } = useAppSelector(
+  const { plans, loading, stats, analytics } = useAppSelector(
     (state) => state.subscription
   );
   const [modalVisible, setModalVisible] = useState(false);
@@ -59,6 +61,7 @@ export default function PaymentPage() {
   useEffect(() => {
     fetchData();
     dispatch(fetchTeacherSubscriptionStats());
+    dispatch(fetchSubscriptionAnalytics());
   }, [dispatch]);
 
   const onRefresh = async () => {
@@ -190,6 +193,7 @@ export default function PaymentPage() {
             ))}
           </View>
         )}
+        <SubscriptionAnalytics analytics={analytics} />
       </ScrollView>
 
       <CreateSubscriptionDialog
