@@ -8,11 +8,11 @@ import {
   Modal,
   ScrollView,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Toast } from "toastify-react-native";
 
 export default function QuizQues() {
   const router = useRouter();
@@ -73,7 +73,7 @@ export default function QuizQues() {
 
   const handleSubmit = async () => {
     if (Object.keys(answers).length < totalQuestions) {
-      Toast.warn("Please answer all questions before submitting.");
+      ToastAndroid.show("Please answer all questions before submitting.", ToastAndroid.SHORT);
       return;
     }
 
@@ -110,7 +110,7 @@ export default function QuizQues() {
       });
       setShowResult(true);
     } catch (error: any) {
-      Toast.error(typeof error === "string" ? error : "Failed to submit quiz");
+      ToastAndroid.show(typeof error === "string" ? error : "Failed to submit quiz", ToastAndroid.SHORT);
     } finally {
       setLoading(false);
     }

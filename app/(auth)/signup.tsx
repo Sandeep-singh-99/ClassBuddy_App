@@ -12,11 +12,11 @@ import {
   Platform,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { Toast } from "toastify-react-native";
 
 export default function SignUp() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function SignUp() {
 
   const handleSignup = async () => {
     if (!fullName || !email || !password || !role) {
-      Toast.error("Please fill in all fields");
+      ToastAndroid.show("Please fill in all fields", ToastAndroid.SHORT);
       return;
     }
 
@@ -81,10 +81,10 @@ export default function SignUp() {
       const userData = res.data.user;
       const token = res.data.access_token;
 
-      Toast.success("Registration successful");
+      ToastAndroid.show("Registration successful", ToastAndroid.SHORT);
       await login(token, userData);
     } catch (error: any) {
-      Toast.error(error.response?.data?.detail || "Registration failed");
+      ToastAndroid.show(error.response?.data?.detail || "Registration failed", ToastAndroid.SHORT);
     } finally {
       setLoading(false);
     }

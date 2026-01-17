@@ -7,10 +7,10 @@ import {
   Modal,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Toast } from "toastify-react-native";
 
 interface GenerateDashboardDataDialogProps {
   visible: boolean;
@@ -27,7 +27,7 @@ export default function GenerateDashboardDataDialog({
 
   const handleGenerate = async () => {
     if (!industry) {
-      Toast.error("Please enter an industry");
+      ToastAndroid.show("Please enter an industry", ToastAndroid.SHORT);
       return;
     }
 
@@ -38,12 +38,12 @@ export default function GenerateDashboardDataDialog({
           industry: industry,
         })
       ).unwrap();
-      Toast.success("Insights generated successfully");
+      ToastAndroid.show("Insights generated successfully", ToastAndroid.SHORT);
       setIndustry("");
       onClose();
     } catch (error: any) {
-      Toast.error(
-        typeof error === "string" ? error : "Failed to generate insights"
+      ToastAndroid.show(
+        typeof error === "string" ? error : "Failed to generate insights", ToastAndroid.SHORT
       );
     } finally {
       setLoading(false);

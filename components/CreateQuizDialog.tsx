@@ -12,10 +12,10 @@ import {
   Modal,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Toast } from "toastify-react-native";
 
 interface CreateQuizDialogProps {
   visible: boolean;
@@ -34,7 +34,7 @@ export default function CreateQuizDialog({
 
   const handleCreate = async () => {
     if (!topic || !description) {
-      Toast.error("Please fill in all fields");
+      ToastAndroid.show("Please fill in all fields", ToastAndroid.SHORT);
       return;
     }
 
@@ -46,14 +46,14 @@ export default function CreateQuizDialog({
           description: description,
         })
       ).unwrap();
-      Toast.success("Quiz created successfully");
+      ToastAndroid.show("Quiz created successfully", ToastAndroid.SHORT);
       setTopic("");
       setDescription("");
       dispatch(GetAllInterviewPrep());
       onClose();
       router.push("/student/quiz_ques");
     } catch (error: any) {
-      Toast.error(typeof error === "string" ? error : "Failed to create quiz");
+      ToastAndroid.show(typeof error === "string" ? error : "Failed to create quiz", ToastAndroid.SHORT);
     } finally {
       setLoading(false);
     }

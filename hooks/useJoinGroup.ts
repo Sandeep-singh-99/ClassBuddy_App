@@ -4,7 +4,7 @@ import {
   joinTeacherGroup,
 } from "@/redux/slice/teacherSlice";
 import { useEffect } from "react";
-import { Toast } from "toastify-react-native";
+import { ToastAndroid } from "react-native";
 
 export const useJoinGroup = (groupId: string) => {
   const dispatch = useAppDispatch();
@@ -23,9 +23,9 @@ export const useJoinGroup = (groupId: string) => {
     if (!groupId) return;
     try {
       await dispatch(joinTeacherGroup(groupId)).unwrap();
-      Toast.success("Joined group successfully");
+      ToastAndroid.show("Joined group successfully", ToastAndroid.SHORT);
     } catch (error) {
-      Toast.error("Failed to join group");
+      ToastAndroid.show("Failed to join group", ToastAndroid.SHORT);
     }
   };
 

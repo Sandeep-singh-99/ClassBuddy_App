@@ -2,7 +2,13 @@ import { IStudentGroupSubscription } from "@/types/subscription";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface StudentGroupCardProps {
   data: IStudentGroupSubscription;
@@ -155,7 +161,12 @@ export default function StudentGroupCard({
                         </Text>
                       </View>
 
-                      <TouchableOpacity className="bg-indigo-600 py-3 rounded-xl items-center active:bg-indigo-700 shadow-sm shadow-indigo-200">
+                      <TouchableOpacity
+                        onPress={() =>
+                          ToastAndroid.show("Coming Soon", ToastAndroid.SHORT)
+                        }
+                        className="bg-indigo-600 py-3 rounded-xl items-center active:bg-indigo-700 shadow-sm shadow-indigo-200"
+                      >
                         <Text className="text-white text-sm font-bold">
                           Buy Now
                         </Text>

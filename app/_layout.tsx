@@ -13,7 +13,6 @@ import {
   ReanimatedLogLevel,
 } from "react-native-reanimated";
 import { Provider } from "react-redux";
-import ToastContainer from "toastify-react-native";
 import { store } from "../redux/store";
 
 // Configure Reanimated logger
@@ -61,19 +60,6 @@ export default function RootLayout() {
       <Provider store={store}>
         <AuthProvider>
           <MainLayout />
-
-          <ToastContainer
-            position="bottom-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-          />
         </AuthProvider>
       </Provider>
     </GestureHandlerRootView>

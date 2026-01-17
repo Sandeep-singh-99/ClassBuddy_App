@@ -10,10 +10,10 @@ import {
   Platform,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Toast } from "toastify-react-native";
 
 export default function Login() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Toast.error("Please fill in all fields");
+      ToastAndroid.show("Please fill in all fields", ToastAndroid.SHORT);
       return;
     }
 
@@ -50,9 +50,9 @@ export default function Login() {
       const token = res.data.access_token;
 
       await login(token, userData);
-      Toast.success("Welcome back!");
+      ToastAndroid.show("Welcome back!", ToastAndroid.SHORT);
     } catch (error: any) {
-      Toast.error(error.response?.data?.detail || "Login failed");
+      ToastAndroid.show(error.response?.data?.detail || "Login failed", ToastAndroid.SHORT);
     } finally {
       setLoading(false);
     }
