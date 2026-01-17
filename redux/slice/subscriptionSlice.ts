@@ -1,5 +1,10 @@
 import { axiosClient } from "@/helper/axios";
-import { IAnalytics, IStats, ISubscriptionPlan } from "@/types/subscription";
+import {
+  IAnalytics,
+  IStats,
+  IStudentGroupSubscription,
+  ISubscriptionPlan,
+} from "@/types/subscription";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
@@ -13,12 +18,12 @@ export const fetchOwnerSubscriptionPlans = createAsyncThunk(
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
-          error.response?.data?.detail || "Fetching subscription plans failed"
+          error.response?.data?.detail || "Fetching subscription plans failed",
         );
       }
       return thunkApi.rejectWithValue("An unexpected error occurred");
     }
-  }
+  },
 );
 
 export const createSubscriptionPlan = createAsyncThunk(
@@ -27,41 +32,41 @@ export const createSubscriptionPlan = createAsyncThunk(
     try {
       const response = await axiosClient.post(
         "/mobile/subscription/plan",
-        data
+        data,
       );
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
-          error.response?.data?.detail || "Creating subscription plan failed"
+          error.response?.data?.detail || "Creating subscription plan failed",
         );
       }
       return thunkApi.rejectWithValue("An unexpected error occurred");
     }
-  }
+  },
 );
 
 export const updateSubscriptionPlan = createAsyncThunk(
   "subscription/update",
   async (
     { id, data }: { id: string; data: Partial<ISubscriptionPlan> },
-    thunkApi
+    thunkApi,
   ) => {
     try {
       const response = await axiosClient.put(
         `/mobile/subscription/${id}`,
-        data
+        data,
       );
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
-          error.response?.data?.detail || "Updating subscription plan failed"
+          error.response?.data?.detail || "Updating subscription plan failed",
         );
       }
       return thunkApi.rejectWithValue("An unexpected error occurred");
     }
-  }
+  },
 );
 
 export const deleteSubscriptionPlan = createAsyncThunk(
@@ -73,12 +78,12 @@ export const deleteSubscriptionPlan = createAsyncThunk(
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
-          error.response?.data?.detail || "Deleting subscription plan failed"
+          error.response?.data?.detail || "Deleting subscription plan failed",
         );
       }
       return thunkApi.rejectWithValue("An unexpected error occurred");
     }
-  }
+  },
 );
 
 export const fetchTeacherSubscriptionStats = createAsyncThunk(
@@ -86,18 +91,18 @@ export const fetchTeacherSubscriptionStats = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await axiosClient.get(
-        "/mobile/subscription/teacher/stats"
+        "/mobile/subscription/teacher/stats",
       );
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
-          error.response?.data?.detail || "Fetching subscription stats failed"
+          error.response?.data?.detail || "Fetching subscription stats failed",
         );
       }
       return thunkApi.rejectWithValue("An unexpected error occurred");
     }
-  }
+  },
 );
 
 export const fetchSubscriptionAnalytics = createAsyncThunk(
@@ -105,19 +110,39 @@ export const fetchSubscriptionAnalytics = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await axiosClient.get(
-        "/mobile/subscription/teacher/analytics"
+        "/mobile/subscription/teacher/analytics",
       );
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(
           error.response?.data?.detail ||
-            "Fetching subscription analytics failed"
+            "Fetching subscription analytics failed",
         );
       }
       return thunkApi.rejectWithValue("An unexpected error occurred");
     }
-  }
+  },
+);
+
+export const fetchStudentSubscriptionPlans = createAsyncThunk(
+  "subscription/studentPlans",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosClient.get(
+        "/mobile/subscription/student/plans",
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(
+          error.response?.data?.detail ??
+            error.message ??
+            "Fetching student plans failed",
+        );
+      }
+    }
+  },
 );
 
 interface SubscriptionState {
@@ -126,6 +151,7 @@ interface SubscriptionState {
   error: string | null;
   stats: IStats | null;
   analytics: IAnalytics | null;
+  studentGroups: IStudentGroupSubscription[];
 }
 
 const initialState: SubscriptionState = {
@@ -134,6 +160,7 @@ const initialState: SubscriptionState = {
   error: null,
   stats: null,
   analytics: null,
+  studentGroups: [],
 };
 
 const subscriptionSlice = createSlice({
@@ -153,7 +180,7 @@ const subscriptionSlice = createSlice({
           state.plans = action.payload;
           state.loading = false;
           state.error = null;
-        }
+        },
       )
       .addCase(fetchOwnerSubscriptionPlans.rejected, (state, action) => {
         state.loading = false;
@@ -171,7 +198,7 @@ const subscriptionSlice = createSlice({
           state.plans.push(action.payload);
           state.loading = false;
           state.error = null;
-        }
+        },
       )
       .addCase(createSubscriptionPlan.rejected, (state, action) => {
         state.loading = false;
@@ -187,14 +214,14 @@ const subscriptionSlice = createSlice({
         updateSubscriptionPlan.fulfilled,
         (state, action: PayloadAction<ISubscriptionPlan>) => {
           const index = state.plans.findIndex(
-            (plan) => plan.id === action.payload.id
+            (plan) => plan.id === action.payload.id,
           );
           if (index !== -1) {
             state.plans[index] = action.payload;
           }
           state.loading = false;
           state.error = null;
-        }
+        },
       )
       .addCase(updateSubscriptionPlan.rejected, (state, action) => {
         state.loading = false;
@@ -210,11 +237,11 @@ const subscriptionSlice = createSlice({
         deleteSubscriptionPlan.fulfilled,
         (state, action: PayloadAction<string>) => {
           state.plans = state.plans.filter(
-            (plan) => plan.id !== action.payload
+            (plan) => plan.id !== action.payload,
           );
           state.loading = false;
           state.error = null;
-        }
+        },
       )
       .addCase(deleteSubscriptionPlan.rejected, (state, action) => {
         state.loading = false;
@@ -232,7 +259,7 @@ const subscriptionSlice = createSlice({
           state.stats = action.payload;
           state.loading = false;
           state.error = null;
-        }
+        },
       )
       .addCase(fetchTeacherSubscriptionStats.rejected, (state, action) => {
         state.loading = false;
@@ -250,12 +277,29 @@ const subscriptionSlice = createSlice({
           state.analytics = action.payload;
           state.loading = false;
           state.error = null;
-        }
+        },
       )
       .addCase(fetchSubscriptionAnalytics.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
+
+    // Fetch Student Plans
+    builder.addCase(fetchStudentSubscriptionPlans.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(
+      fetchStudentSubscriptionPlans.fulfilled,
+      (state, action: PayloadAction<IStudentGroupSubscription[]>) => {
+        state.loading = false;
+        state.studentGroups = action.payload;
+      },
+    );
+    builder.addCase(fetchStudentSubscriptionPlans.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
   },
 });
 

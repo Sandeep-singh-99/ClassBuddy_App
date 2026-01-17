@@ -130,6 +130,18 @@ export default function StudentLayout() {
             title: "",
           }}
         />
+
+        <Drawer.Screen
+          name="(dashboard)/payment"
+          options={{
+            drawerLabel: "Payment", 
+            title: "Payment", 
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="card-outline" size={size} color={color} />
+            ),
+          }}
+        />
+
         <Drawer.Screen
           name="(dashboard)/chat/index"
           options={{
