@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import BuyOrder from "./BuyOrder";
 
 interface StudentGroupCardProps {
   data: IStudentGroupSubscription;
@@ -160,17 +161,11 @@ export default function StudentGroupCard({
                           {plan.validity_days} Days Validity
                         </Text>
                       </View>
-
-                      <TouchableOpacity
-                        onPress={() =>
-                          ToastAndroid.show("Coming Soon", ToastAndroid.SHORT)
-                        }
-                        className="bg-indigo-600 py-3 rounded-xl items-center active:bg-indigo-700 shadow-sm shadow-indigo-200"
-                      >
-                        <Text className="text-white text-sm font-bold">
-                          Buy Now
-                        </Text>
-                      </TouchableOpacity>
+                      <BuyOrder
+                        plan_id={plan.id}
+                        planName={plan.plan_name}
+                        amount={plan.amount}
+                      />
                     </View>
                   ))}
                 </View>
